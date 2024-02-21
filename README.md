@@ -33,6 +33,10 @@ Click Open button. Folder chooser dialog will appears. Select a folder that cont
 You will see the 1st image of the time laps.
 Adjust roi (indicated as yellow rectangles after you click any sliders) size, position etc. using sliders on the GUI panel, and if you satisfied them, click run.
 
+
+>[!NOTE]　Currently, likely caused by incomplete implementation of tk gui library on MacOS, the gui response is slow and you have to click title bar before change sliders. Other gui library may be used in the future.
+
+
 A window with gray images will appears. It showing subtracted images currently processing. If you see black and white objects, it means there is a moving object. The program calculate the area of the moving object of each roi. 
 
 ![alt text](images/imagesubtmeasure_subt.png)
