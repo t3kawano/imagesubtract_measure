@@ -693,7 +693,7 @@ class Imageprocessgui(tkinter.Frame):
     def autosetroi(self, event):
         #sys.path.append("C:\\Users\\Hayashi_Lab\\Documents\\programs\\imagecapture")
         sys.path.append(os.path.join(os.pardir, "imagecapture"))
- 
+        """
         import autocircledetect
         self.roicol = Roicollection(self)
         
@@ -745,7 +745,7 @@ class Imageprocessgui(tkinter.Frame):
         self.boxwidth.insert(tkinter.END,str(roiwidth))
         self.boxheight.delete(0, tkinter.END)
         self.boxheight.insert(tkinter.END,str(roiwidth))
-
+        """
 
         
     def showsubtmedimg(self, n):
