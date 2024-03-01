@@ -1,6 +1,7 @@
 # image subtract and measure
 
-![alt text](images/imagesubtmeasure_1.png)
+<img src = "images/imagesubtmeasure_1.png" width=50%>
+
 
 ## Overview
 This script handle a series of jpg images and process them with image subtraction method to detect motion of objects in each roi.
@@ -22,13 +23,13 @@ Put the `imagesubtandmesure.py` into somewhere your computer.
 ## Usage
 Run the script. It will show the GUI as below.
 
-![alt text](images/imagesubtmeasure_GUI.png)
+<img src = "images/imagesubtmeasure_GUI.png" width=50%>
 
 Click Open button. Folder chooser dialog will appears. Select a folder that containing images taken by `imcap_picam.py`
 
 
 
-![alt text](images/imagesubtmeasure_rawimage.png)
+<img src = "images/imagesubtmeasure_rawimage.png" width=50%>
 
 You will see the 1st image of the time laps.
 Adjust roi (indicated as yellow rectangles after you click any sliders) size, position etc. using sliders on the GUI panel, and if you satisfied them, click run.
@@ -39,12 +40,11 @@ Adjust roi (indicated as yellow rectangles after you click any sliders) size, po
 
 A window with gray images will appears. It showing subtracted images currently processing. If you see black and white objects, it means there is a moving object. The program calculate the area of the moving object of each roi. 
 
-![alt text](images/imagesubtmeasure_subt.png)
+<img src = "images/imagesubtmeasure_subt.png" width=50%>
 
 Click save button to save a .csv file in the same directory of the images. The contents of the output file is as follows. Each column indicate each roi, and each row means each image.
 
-
-![alt text](images/area.png)
+<img src = "images/area.png" width=50%>
 
 
 <!-- 
@@ -53,7 +53,7 @@ Click save button to save a .csv file in the same directory of the images. The c
 ## Author -->
 
 ## Reference
-Kawano, Taizo et al. “ER proteostasis regulators cell-non-autonomously control sleep.” Cell reports vol. 42,3 (2023): 112267. doi: 10.1016/j.celrep.2023.112267
+Kawano, Taizo et al. “ER proteostasis regulators cell-non-autonomously control sleep.” Cell reports vol. 42,3 (2023): 112267. https://doi.org/10.1016/j.celrep.2023.112267
 
 ## License
 MPL-2.0
