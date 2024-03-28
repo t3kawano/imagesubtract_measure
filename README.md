@@ -12,6 +12,10 @@ Images obtained by [`imcap_picam.py`](https://github.com/t3kawano/imagecapture_p
 
 ## Requirement
 - python3
+- numpy
+- pandas
+- matplotlib
+- cv2
 
 
 ## Installation

@@ -511,7 +511,7 @@ class Imageprocessgui(tkinter.Frame):
         tk.destroy()
         print("self.imagedir "+self.imagedir)
         """
-        #return 
+        #return fwegaeik;okd
         #dircontents = os.listdir(self.imagedir)
         dircontents = sorted(os.listdir(self.imagedir))
         #print("dircontents " + str(dircontents))
@@ -1352,7 +1352,7 @@ if __name__ == "__main__":
     #test(sys.argv[1:])
     main(sys.argv[1:])
 else:
-    print("__name__" + str(__name__))
+    print("__name__ " + str(__name__))
             
         
         
