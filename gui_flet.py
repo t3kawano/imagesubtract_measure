@@ -57,6 +57,22 @@ def on_closing():
     cv2.destroyAllWindows()
 
 
+#contains control object names and values
+#control event handler can not pass info that which control was changed.
+#also, lambda can not be async function. it problem when calc. slider delta
+# so keep parameters in outside object and ref it when changed.
+class Param_Obj():
+    def __init__(self, value):
+        self.value = value
+
+    def set(self, key, obj):
+        self.value[key]=obj
+        
+    def get(self, key):
+        return self.value[key]
+
+
+
 
 
 class Imageprocess_fletgui(ft.UserControl):
@@ -82,6 +98,8 @@ class Imageprocess_fletgui(ft.UserControl):
         page.window_width = 200 
         page.window_height = 700
         page.window_title = "Image Subtract and Measure"
+
+        self.pobj =Param_Obj({})
 
         #################################################
         #setup parts and functions
@@ -123,11 +141,17 @@ class Imageprocess_fletgui(ft.UserControl):
                                 on_change=self.roi_row_text_changed)
         
         xpos_label = ft.Text("x posiion", size="10")
-        self.xpos_value_int = Imageprocess_fletgui.d_xpos_value_int
-        self.xpos_value = ft.Text(str(self.xpos_value_int),size="10")
-        self.slider_xpos = ft.Slider(min=1, max=256, divisions=255, value=self.xpos_value_int,
-                                width=190, height=30, 
-                                label="{value}", on_change=self.slider_xpos_changed(e, "xpos"))#need rambda ?
+        #self.xpos_value_int = Imageprocess_fletgui.d_xpos_value_int
+        self.pobj.set("xpos", Imageprocess_fletgui.d_xpos_value_int)
+        #self.xpos_value = ft.Text(str(self.xpos_value_int),size="10")
+        self.xpos_value = ft.Text(str(self.pobj.get("xpos")),size="10")
+        self.slider_xpos = ft.Slider(min=1, max=256, divisions=255, 
+                                    #value=self.xpos_value_int,
+                                    value=self.pobj.get("xpos"),
+                                    width=190, height=30, 
+                                    label="{value}", 
+                                    on_change=self.slider_xpos_changed)
+        #but you can't have an async lambda, so an async event handler must be used.
         
         ypos_label = ft.Text("y position", size="10")
         ypos_value_int = 43
@@ -178,7 +202,8 @@ class Imageprocess_fletgui(ft.UserControl):
         slider_xinterval = ft.Slider(min=1, max=512, divisions=511, value=xinterval_value_int,
                                 width=190, height=30, 
                                 label="{value}", on_change=slider_xinterval_changed)
-        
+
+
         yinterval_label = ft.Text("y interval", size="10")
         yinterval_value_int = 123
         async def slider_yinterval_changed(e):
@@ -301,8 +326,9 @@ class Imageprocess_fletgui(ft.UserControl):
                     ft.Column([column_label,row_label ]),
                     ft.Column([self.roi_column_text,self.roi_row_text])])
             
-        row_roi_xpos = ft.Row([ft.Column([ft.Row([xpos_label,self.xpos_value]),
-                                        self.slider_xpos])])
+        row_roi_xpos = ft.Row([ft.Column([ft.Row([xpos_label,
+                                                self.xpos_value]),
+                                                self.slider_xpos])])
 
         row_roi_ypos = ft.Row([ft.Column([ft.Row([ypos_label,ypos_value]),
                                         slider_ypos])])
@@ -372,23 +398,29 @@ class Imageprocess_fletgui(ft.UserControl):
     def roi_row_text_changed(self, e):
         print("ROI row changed:", e.control.value)        
 
-    async def slider_xpos_changed(self, e, message: str):
-        #nonlocal xpos_value_int
-        print("X position changed:", e.control.value)
-        delta = self.xpos_value_int - int(e.control.value)
+    async def slider_xpos_changed(self, e):
+        await self.slider_control(e, "xpos", 
+                                #self.xpos_value_int,
+                                self.xpos_value,
+                                self.slider_xpos)
+
+    async def slider_control(self, e, keystr, _strval, _slider):
+        print(keystr, "changed:", e.control.value)
+        prev_val=self.pobj.get(keystr)
+        delta = prev_val - int(e.control.value)
         print("abs(delta)" , abs(delta))
         if abs(delta) < 30:
-            self.xpos_value_int=int(e.control.value)
+            self.pobj.set(keystr,int(e.control.value))
         else:
             if delta > 0:
-                self.xpos_value_int=self.xpos_value_int-1
+                self.pobj.set(keystr,prev_val-1)
             else:
-                self.xpos_value_int=self.xpos_value_int+1
-        self.slider_xpos.value=self.xpos_value_int
-        self.xpos_value.value=str(self.xpos_value_int)
-        await self.xpos_value.update_async()
-        await self.slider_xpos.update_async() 
-        #page.update
+                self.pobj.set(keystr,prev_val+1)
+        _slider.value=self.pobj.get(keystr)
+        _strval.value=str(self.pobj.get(keystr))
+        await _strval.update_async()
+        await _slider.update_async() 
+            
 
 
 
