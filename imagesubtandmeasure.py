@@ -691,8 +691,8 @@ class Imageprocessgui(tkinter.Frame):
         """
 
     def autosetroi(self, event):
-        #sys.path.append("C:\\Users\\Hayashi_Lab\\Documents\\programs\\imagecapture")
-        sys.path.append(os.path.join(os.pardir, "imagecapture"))
+        pass
+        #sys.path.append(os.path.join(os.pardir, "imagecapture"))
         """
         import autocircledetect
         self.roicol = Roicollection(self)
